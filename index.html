@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:image" content="https://www.youtube.com/img/desktop/yt_1200.png">
+        <title>Don't worry, be happy!</title>
+        <style>
+            body {
+                background: cyan;
+                color: blue;
+                font-family: sans-serif;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1 id="title">Don't worry, be happy!</h1>
+        <div style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background: transparent; z-index: 10;"></div>
+        <div id="wrapper" style="position: absolute; left: calc(50vw - 280px); width: 560px; height: 315px; background: transparent; z-index: 100; cursor: pointer;"></div>
+        <div id="player2"></div>
+        <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/UkpSWy67ClY?si=yuy9Wgl25ar45KR4"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+        <script src="https://www.youtube.com/iframe_api"></script>
+        <script type="text/javascript">
+            let playerReady = false;
+            let wrapper = document.getElementById('wrapper');
+            let title = document.getElementById('title');
+
+            wrapper.style.top = title.getBoundingClientRect().height;
+            function onYouTubeIframeAPIReady() {
+                console.log('ready')
+                playerReady = true;
+            }
+
+            function loadPlayer() {
+                let interval = setInterval(() => {
+                    if (!playerReady) {
+                        return;
+                    }
+
+                    console.log('player created')
+                    let player = new YT.Player('player2', {
+                        height: '315',
+                        width: '560',
+                        videoId: 'ZYWH3cpy_Zo',
+                        playerVars: {
+                            autoplay: '1',
+                            controls: '0',
+                            disablekb: '1',
+                            modestbranding: '1',
+                            showinfo: '0',
+                            start: '11'
+                        }
+                    });
+                    document.getElementById('player').remove();
+                    clearInterval(interval);
+                }, 100);
+            }
+
+            let hasSwitched = false;
+
+            document.body.addEventListener('click', () => {
+                if (!hasSwitched) {
+                    console.log('click')
+                    hasSwitched = true;
+                    loadPlayer();
+                }
+            });
+        </script>
+    </body>
+
+</html>
